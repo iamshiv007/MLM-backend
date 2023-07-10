@@ -8,4 +8,8 @@ router.use("/", user)
 const banner = require('./banner')
 router.use("/", banner)
 
+// Sell
+const sell = require('./sell')
+router.use("/", sell)
+
 module.exports = router

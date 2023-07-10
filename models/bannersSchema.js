@@ -13,4 +13,4 @@ const bannersSchema = mongoose.Schema({
     { timestamps: true }
 )
 
-module.exports = mongoose.model("Benners", bannersSchema)
+module.exports = mongoose.model("Benner", bannersSchema)
