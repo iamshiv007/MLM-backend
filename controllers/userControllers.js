@@ -1,6 +1,5 @@
 const User = require('../models/userSchema')
 const bcrypt = require('bcrypt')
-const jwt = require("jsonwebtoken")
 
 // 1. Create New Usre
 exports.createUser = async (req, res) => {
@@ -60,6 +59,23 @@ exports.deleteUser = async (req, res) => {
         }
 
         res.status(201).json({ success: true, message: "User Deleted", user })
+
+    } catch (error) {
+        res.status(500).json({ success: true, message: error.message })
+    }
+}
+
+// 5. Get User by Id
+exports.getUserById = async (req, res) => {
+    try {
+
+        const user = await User.findById(req.params.id)
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User Not Found" })
+        }
+
+        res.status(201).json({ success: true, user })
 
     } catch (error) {
         res.status(500).json({ success: true, message: error.message })
