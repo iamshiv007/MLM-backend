@@ -23,13 +23,18 @@ const userSchema = mongoose.Schema({
         required: true
     },
     wallet: {
-        type: String,
+        type: Number,
     },
     team: {
         type: String,
     },
     address: {
         type: String,
+    },
+    status: {
+        type: String,
+        required: true,
+        default: 'Block'
     }
 },
     { timestamps: true }
