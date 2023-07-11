@@ -5,7 +5,11 @@ const bcrypt = require('bcrypt')
 exports.createUser = async (req, res) => {
     try {
 
-        const { password } = req.body
+        const { password, confirmPassword } = req.body
+
+        if (password !== confirmPassword) {
+            return res.status(400).json({ success: false, message: "Password does not match" })
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -35,13 +39,31 @@ exports.getAllUsers = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
 
+        if (req.body.password) {
+
+            if (req.body.password !== req.body.confirmPassword) {
+                return res.status(400).json({ success: false, message: "Password does not match" })
+            }
+
+            const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+            const user = await User.findByIdAndUpdate(req.params.id, { ...req.body, password: hashedPassword })
+
+            if (!user) {
+                return res.status(404).json({ success: false, message: "User Not Found" })
+            }
+
+            return res.status(200).json({ success: true, message: "Password Updated", user })
+
+        }
+
         const user = await User.findByIdAndUpdate(req.params.id, req.body)
 
         if (!user) {
             return res.status(404).json({ success: false, message: "User Not Found" })
         }
 
-        res.status(201).json({ success: true, message: "User Updated", user })
+        res.status(200).json({ success: true, message: "User Updated", user })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -58,7 +80,7 @@ exports.deleteUser = async (req, res) => {
             return res.status(404).json({ success: false, message: "User Not Found" })
         }
 
-        res.status(201).json({ success: true, message: "User Deleted", user })
+        res.status(200).json({ success: true, message: "User Deleted", user })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -75,7 +97,7 @@ exports.getUserById = async (req, res) => {
             return res.status(404).json({ success: false, message: "User Not Found" })
         }
 
-        res.status(201).json({ success: true, user })
+        res.status(200).json({ success: true, user })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
