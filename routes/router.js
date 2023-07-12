@@ -12,4 +12,8 @@ router.use("/", banner)
 const sell = require('./sell')
 router.use("/", sell)
 
+// geniusCoinRate
+const geniusCoinRate = require('./geniusCoinRate')
+router.use("/", geniusCoinRate)
+
 module.exports = router

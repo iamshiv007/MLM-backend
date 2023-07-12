@@ -24,6 +24,7 @@ const userSchema = mongoose.Schema({
     },
     wallet: {
         type: Number,
+        default: 0
     },
     team: {
         type: String,
