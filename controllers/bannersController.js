@@ -3,7 +3,6 @@ const fs = require('fs');
 
 // 1. Upload new banner
 exports.uploadBanner = async (req, res) => {
-
     const { bannerName } = req.body
     const bannerImage = req.file.filename
 
@@ -51,7 +50,7 @@ exports.deleteBanner = async (req, res) => {
             }
         });
 
-        res.status(500).json({ success: true, message: "Banner Deleted" })
+        res.status(200).json({ success: true, message: "Banner Deleted" })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })

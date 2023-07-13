@@ -10,6 +10,8 @@ app.use(cors())
 const connectdb = require('./connection/connect')
 connectdb()
 
+app.use("/banners", express.static('banners'))
+
 // Routes
 const router = require('./routes/router')
 app.use('/api', router)
